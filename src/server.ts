@@ -8,6 +8,7 @@ const server = net.createServer();
 const clientSockets: { id: string; socket: net.Socket }[] = [];
 
 server.on("connection", (socket) => {
+	socket.write(`id-${clientSockets.length + 1}`);
 	console.log(
 		`\r\t************
     \r\tClient connected
@@ -16,13 +17,11 @@ server.on("connection", (socket) => {
     \r\t************`
 	);
 	socket.on("data", (chunk) => {
+		const dataString = chunk.toString("utf-8");
+		const id = dataString.substring(0, dataString.indexOf("-"));
+		const message = dataString.substring(dataString.indexOf("-message-") + 9);
 		clientSockets.map((cs) => {
-			cs.socket.write(
-				JSON.stringify({
-					id: cs.id,
-					message: chunk.toString("utf-8"),
-				})
-			);
+			cs.socket.write(`>User ${id}L ${message}`);
 		});
 	});
 
