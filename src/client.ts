@@ -57,7 +57,7 @@ socket.on("data", async (chunk) => {
 	const message = await messageInput();
 	await moveCursor(0, -1);
 	await clearCurrentLine();
-	socket.write(message);
+	socket.write(`${id}-message-${message}`);
 });
 
 socket.on("close", () => {
