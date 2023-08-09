@@ -21,7 +21,7 @@ server.on("connection", (socket) => {
 		const id = dataString.substring(0, dataString.indexOf("-"));
 		const message = dataString.substring(dataString.indexOf("-message-") + 9);
 		clientSockets.map((cs) => {
-			cs.socket.write(`>User ${id}L ${message}`);
+			cs.socket.write(`>User ${id}: ${message}`);
 		});
 	});
 
